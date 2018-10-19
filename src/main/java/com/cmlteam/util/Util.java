@@ -3,12 +3,13 @@ package com.cmlteam.util;
 import org.apache.commons.lang3.StringUtils;
 import sun.misc.Unsafe;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class Util {
 
@@ -73,7 +74,7 @@ public final class Util {
     return defaultVal;
   }
 
-  /** TODO */
+  /** TODO javadoc */
   public static String trim(String str, int maxLen) {
     if (str == null) return null;
 
@@ -161,5 +162,29 @@ public final class Util {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public interface StringReplacerCallback {
+    String replace(Matcher match);
+  }
+
+  /** TODO javadoc */
+  public static String replaceRegexWithCallback(
+      String input, Pattern regex, StringReplacerCallback callback) {
+
+    StringBuilder res = new StringBuilder();
+
+    Matcher regexMatcher = regex.matcher(input);
+
+    int prevStart = 0;
+
+    while (regexMatcher.find()) {
+      res.append(input, prevStart, regexMatcher.start());
+      res.append(callback.replace(regexMatcher));
+      prevStart = regexMatcher.end();
+    }
+
+    res.append(input.substring(prevStart));
+    return res.toString();
   }
 }
