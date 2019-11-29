@@ -1,107 +1,121 @@
 package com.cmlteam.util;
+import org.junit.jupiter.api.Test;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
+import java.text.DecimalFormatSymbols;
 import java.util.regex.Pattern;
 
-public class UtilTest extends TestCase {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class UtilTest {
+  @Test
   public void testSafeToBoolean() {
-    Assert.assertTrue(Util.safeToBoolean(true));
-    Assert.assertTrue(Util.safeToBoolean("true"));
-    Assert.assertFalse(Util.safeToBoolean(false));
-    Assert.assertFalse(Util.safeToBoolean(null));
-    Assert.assertFalse(Util.safeToBoolean("TRUE"));
-    Assert.assertFalse(Util.safeToBoolean(new Object()));
+    assertTrue(Util.safeToBoolean(true));
+    assertTrue(Util.safeToBoolean("true"));
+    assertFalse(Util.safeToBoolean(false));
+    assertFalse(Util.safeToBoolean(null));
+    assertFalse(Util.safeToBoolean("TRUE"));
+    assertFalse(Util.safeToBoolean(new Object()));
   }
 
+  @Test
   public void testSafeFilename() {
     // https://stackoverflow.com/questions/1976007/what-characters-are-forbidden-in-windows-and-linux-directory-names
     String forbiddenSymbols = "/\\?%*:|\"<>";
-    Assert.assertEquals(Util.safeFilename("_file.txt"), "_file.txt");
-    Assert.assertEquals(Util.safeFilename(forbiddenSymbols + "fil" + forbiddenSymbols + "e.txt" + forbiddenSymbols), "file.txt");
-    Assert.assertEquals(Util.safeFilename(".file.txt"), ".file.txt");
+    assertEquals(Util.safeFilename("_file.txt"), "_file.txt");
+    assertEquals(Util.safeFilename(forbiddenSymbols + "fil" + forbiddenSymbols + "e.txt" + forbiddenSymbols), "file.txt");
+    assertEquals(Util.safeFilename(".file.txt"), ".file.txt");
   }
 
+  @Test
   public void testSafeToInt() {
-    Assert.assertEquals(Util.safeToInt(0), 0);
-    Assert.assertEquals(Util.safeToInt(null, 3), 3);
-    Assert.assertEquals(Util.safeToInt("0"), 0);
-    Assert.assertEquals(Util.safeToInt(Integer.MAX_VALUE), Integer.MAX_VALUE);
-    Assert.assertEquals(Util.safeToInt(Integer.MIN_VALUE), Integer.MIN_VALUE);
-    Assert.assertEquals(Util.safeToInt("-2"), -2);
-    Assert.assertEquals(Util.safeToInt("2a"), 0);
-    Assert.assertEquals(Util.safeToInt("2a", 3), 3);
+    assertEquals(Util.safeToInt(0), 0);
+    assertEquals(Util.safeToInt(null, 3), 3);
+    assertEquals(Util.safeToInt("0"), 0);
+    assertEquals(Util.safeToInt(Integer.MAX_VALUE), Integer.MAX_VALUE);
+    assertEquals(Util.safeToInt(Integer.MIN_VALUE), Integer.MIN_VALUE);
+    assertEquals(Util.safeToInt("-2"), -2);
+    assertEquals(Util.safeToInt("2a"), 0);
+    assertEquals(Util.safeToInt("2a", 3), 3);
   }
 
+  @Test
   public void testSafeToLong() {
-    Assert.assertEquals(Util.safeToLong(0), 0);
-    Assert.assertEquals(Util.safeToLong(null, 3), 3);
-    Assert.assertEquals(Util.safeToLong("0"), 0);
-    Assert.assertEquals(Util.safeToLong(Long.MAX_VALUE), Long.MAX_VALUE);
-    Assert.assertEquals(Util.safeToLong(Long.MIN_VALUE), Long.MIN_VALUE);
-    Assert.assertEquals(Util.safeToLong("-2"), -2);
-    Assert.assertEquals(Util.safeToLong("2a"), 0);
-    Assert.assertEquals(Util.safeToLong("2a", 3), 3);
+    assertEquals(Util.safeToLong(0), 0);
+    assertEquals(Util.safeToLong(null, 3), 3);
+    assertEquals(Util.safeToLong("0"), 0);
+    assertEquals(Util.safeToLong(Long.MAX_VALUE), Long.MAX_VALUE);
+    assertEquals(Util.safeToLong(Long.MIN_VALUE), Long.MIN_VALUE);
+    assertEquals(Util.safeToLong("-2"), -2);
+    assertEquals(Util.safeToLong("2a"), 0);
+    assertEquals(Util.safeToLong("2a", 3), 3);
   }
 
+  @Test
   public void testTrim() {
     String string10 = "qwertyuiop";
-    Assert.assertNull(Util.trim(null, 10));
-    Assert.assertEquals(Util.trim(string10, 1), "q...");
-    Assert.assertEquals(Util.trim(string10, 10), string10);
+    assertNull(Util.trim(null, 10));
+    assertEquals(Util.trim(string10, 1), "q...");
+    assertEquals(Util.trim(string10, 10), string10);
   }
 
+  @Test
   public void testSha1() {
     String string = "qwertyuiop";
-    Assert.assertEquals(Util.sha1(string).getBytes().length, 40);
+    assertEquals(Util.sha1(string).getBytes().length, 40);
   }
 
+  @Test
   public void testRenderDelta() {
     long millisSec = 1000;
     long millisMin = millisSec * 60;
     long millisHr = millisMin * 60;
     long millisDay = millisHr * 24;
-    Assert.assertEquals(Util.renderDelta(millisDay * 2 + millisHr * 3 + millisMin * 4 + millisSec * 5), "2 d 3 h");
-    Assert.assertEquals(Util.renderDelta(millisHr * 3 + millisMin * 4 + millisSec * 5), "3 h 4 m");
-    Assert.assertEquals(Util.renderDelta(millisMin * 4 + millisSec * 5), "4 m 5 s");
-    Assert.assertEquals(Util.renderDelta(millisDay * 2 + millisSec * 5), "2 d null");
+    assertEquals(Util.renderDelta(millisDay * 2 + millisHr * 3 + millisMin * 4 + millisSec * 5), "2 d 3 h");
+    assertEquals(Util.renderDelta(millisHr * 3 + millisMin * 4 + millisSec * 5), "3 h 4 m");
+    assertEquals(Util.renderDelta(millisMin * 4 + millisSec * 5), "4 m 5 s");
+    assertEquals(Util.renderDelta(millisDay * 2 + millisSec * 5), "2 d null");
   }
 
+  @Test
   public void testRenderDurationFromStart() {
     long millisSec = 1000;
-    Assert.assertNotNull(Util.renderDurationFromStart(millisSec));
+    assertNotNull(Util.renderDurationFromStart(millisSec));
   }
 
+  @Test
   public void testHumanReadableByteCount() {
-    Assert.assertEquals(Util.humanReadableByteCount(11, true), "11 B");
-    Assert.assertEquals(Util.humanReadableByteCount(1000, true), "1,0 kB");
-    Assert.assertEquals(Util.humanReadableByteCount(1000000, true), "1,0 MB");
-    Assert.assertEquals(Util.humanReadableByteCount(1000000000, true), "1,0 GB");
-    Assert.assertEquals(Util.humanReadableByteCount(1000000000000L, true), "1,0 TB");
+    assertEquals(Util.humanReadableByteCount(11, true), "11 B");
+    assertEquals(Util.humanReadableByteCount(1000, true), "1,0 kB");
+    assertEquals(Util.humanReadableByteCount(1000000, true), "1,0 MB");
+    assertEquals(Util.humanReadableByteCount(1000000000, true), "1,0 GB");
+    assertEquals(Util.humanReadableByteCount(1000000000000L, true), "1,0 TB");
 
-    Assert.assertEquals(Util.humanReadableByteCount(11, false), "11 B");
-    Assert.assertEquals(Util.humanReadableByteCount(1024, false), "1,0 KiB");
-    Assert.assertEquals(Util.humanReadableByteCount(1024 * 1024, false), "1,0 MiB");
-    Assert.assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024, false), "1,0 GiB");
-    Assert.assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024 * 1024L, false), "1,0 TiB");
+    assertEquals(Util.humanReadableByteCount(11, false), "11 B");
+    assertEquals(Util.humanReadableByteCount(1024, false), "1,0 KiB");
+    assertEquals(Util.humanReadableByteCount(1024 * 1024, false), "1,0 MiB");
+    assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024, false), "1,0 GiB");
+    assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024 * 1024L, false), "1,0 TiB");
   }
 
+  @Test
   public void testRenderFileSize() {
-    Assert.assertEquals(Util.renderFileSize(11), "11 B");
-    Assert.assertEquals(Util.renderFileSize(1024), "1,0 KB");
-    Assert.assertEquals(Util.renderFileSize(1024 * 1024), "1,0 MB");
-    Assert.assertEquals(Util.renderFileSize(1024 * 1024 * 1024), "1,0 GB");
-    Assert.assertEquals(Util.renderFileSize(1024 * 1024 * 1024 * 1024L), "1,0 TB");
+    char decimalSeparator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
+    assertEquals(Util.renderFileSize(11), "11 B");
+    assertEquals(Util.renderFileSize(1024), "1" + decimalSeparator + "0 KB");
+    assertEquals(Util.renderFileSize(1024 * 1024), "1" + decimalSeparator +"0 MB");
+    assertEquals(Util.renderFileSize(1024 * 1024 * 1024), "1" + decimalSeparator + "0 GB");
+    assertEquals(Util.renderFileSize(1024 * 1024 * 1024 * 1024L), "1" + decimalSeparator + "0 TB");
   }
 
+  @Test
   public void testGetUnsafe() {
-    Assert.assertNotNull(Util.getUnsafe());
+    assertNotNull(Util.getUnsafe());
   }
 
+  @Test
   public void testReplaceRegexWithCallback() {
     Util.StringReplacerCallback stringReplacerCallback = match -> "";
-    Assert.assertEquals(
+    assertEquals(
         Util.replaceRegexWithCallback("\\q&we-%123", Pattern.compile("\\W+", Pattern.MULTILINE), stringReplacerCallback),
         "qwe123"
     );
