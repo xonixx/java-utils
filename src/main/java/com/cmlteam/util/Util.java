@@ -74,7 +74,11 @@ public final class Util {
     return defaultVal;
   }
 
-  /** TODO javadoc */
+  /**
+   * @param str input string
+   * @param maxLen input bound of string
+   * @return ellipsis string (3 dots at the end, if string out of bounds)
+   */
   public static String trim(String str, int maxLen) {
     if (str == null) return null;
 
@@ -168,7 +172,12 @@ public final class Util {
     String replace(Matcher match);
   }
 
-  /** TODO javadoc */
+  /**
+   * @param input input string
+   * @param regex that should be replaced
+   * @param callback replacer implements StringReplacerCallback
+   * @return hexadecimal string of length 40 which represents the SHA1 hash of input
+   */
   public static String replaceRegexWithCallback(
       String input, Pattern regex, StringReplacerCallback callback) {
 
