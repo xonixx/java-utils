@@ -84,17 +84,18 @@ public class UtilTest {
 
   @Test
   public void testHumanReadableByteCount() {
+    char decimalSeparator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
     assertEquals(Util.humanReadableByteCount(11, true), "11 B");
-    assertEquals(Util.humanReadableByteCount(1000, true), "1,0 kB");
-    assertEquals(Util.humanReadableByteCount(1000000, true), "1,0 MB");
-    assertEquals(Util.humanReadableByteCount(1000000000, true), "1,0 GB");
-    assertEquals(Util.humanReadableByteCount(1000000000000L, true), "1,0 TB");
+    assertEquals(Util.humanReadableByteCount(1000, true), "1" + decimalSeparator + "0 kB");
+    assertEquals(Util.humanReadableByteCount(1000000, true), "1" + decimalSeparator + "0 MB");
+    assertEquals(Util.humanReadableByteCount(1000000000, true), "1" + decimalSeparator + "0 GB");
+    assertEquals(Util.humanReadableByteCount(1000000000000L, true), "1" + decimalSeparator + "0 TB");
 
     assertEquals(Util.humanReadableByteCount(11, false), "11 B");
-    assertEquals(Util.humanReadableByteCount(1024, false), "1,0 KiB");
-    assertEquals(Util.humanReadableByteCount(1024 * 1024, false), "1,0 MiB");
-    assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024, false), "1,0 GiB");
-    assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024 * 1024L, false), "1,0 TiB");
+    assertEquals(Util.humanReadableByteCount(1024, false), "1" + decimalSeparator + "0 KiB");
+    assertEquals(Util.humanReadableByteCount(1024 * 1024, false), "1" + decimalSeparator + "0 MiB");
+    assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024, false), "1" + decimalSeparator + "0 GiB");
+    assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024 * 1024L, false), "1" + decimalSeparator + "0 TiB");
   }
 
   @Test
