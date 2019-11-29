@@ -106,6 +106,7 @@ public final class Util {
     }
   }
 
+//  TODO maybe change System.currentTimeMillis() to Clock.systemUTC().millis() for mock possibility
   public static String renderDurationFromStart(long startMillis) {
     return renderDelta(System.currentTimeMillis() - startMillis);
   }

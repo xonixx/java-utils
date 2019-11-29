@@ -5,8 +5,6 @@ import junit.framework.TestCase;
 
 import java.util.regex.Pattern;
 
-import static java.util.regex.Pattern.MULTILINE;
-
 public class UtilTest extends TestCase {
   public void testSafeToBoolean() {
     Assert.assertTrue(Util.safeToBoolean(true));
@@ -71,12 +69,7 @@ public class UtilTest extends TestCase {
 
   public void testRenderDurationFromStart() {
     long millisSec = 1000;
-    long millisMin = millisSec * 60;
-    long millisHr = millisMin * 60;
-    long millisDay = millisHr * 24;
-
-//    TODO improve
-    Assert.assertNotNull(Util.renderDurationFromStart(millisDay * 2 + millisHr * 3));
+    Assert.assertNotNull(Util.renderDurationFromStart(millisSec));
   }
 
   public void testHumanReadableByteCount() {
@@ -107,6 +100,9 @@ public class UtilTest extends TestCase {
 
   public void testReplaceRegexWithCallback() {
     Util.StringReplacerCallback stringReplacerCallback = match -> "";
-    Assert.assertEquals(Util.replaceRegexWithCallback("\\q&we-%123", Pattern.compile("\\W+", MULTILINE), stringReplacerCallback), "qwe123");
+    Assert.assertEquals(
+        Util.replaceRegexWithCallback("\\q&we-%123", Pattern.compile("\\W+", Pattern.MULTILINE), stringReplacerCallback),
+        "qwe123"
+    );
   }
 }
