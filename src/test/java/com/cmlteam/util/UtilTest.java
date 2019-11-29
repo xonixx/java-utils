@@ -47,6 +47,7 @@ public class UtilTest extends TestCase {
 
   public void testTrim() {
     String string10 = "qwertyuiop";
+    Assert.assertNull(Util.trim(null, 10));
     Assert.assertEquals(Util.trim(string10, 1), "q...");
     Assert.assertEquals(Util.trim(string10, 10), string10);
   }
