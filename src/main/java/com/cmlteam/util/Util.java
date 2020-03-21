@@ -1,6 +1,5 @@
 package com.cmlteam.util;
 
-import org.apache.commons.lang3.StringUtils;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -100,10 +99,24 @@ public final class Util {
        * size of 160 bits. Each hexadecimal character is 4-bits.
        * 160 / 4 = 40
        */
-      return StringUtils.leftPad(new BigInteger(1, messageDigest.digest()).toString(16), 40, '0');
+      return leftPad(new BigInteger(1, messageDigest.digest()).toString(16), 40, '0');
     } catch (NoSuchAlgorithmException e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  private static String leftPad(String string, int upToLen, char charToPad) {
+    if (string.length() >= upToLen) {
+      return string;
+    }
+
+    StringBuilder sb = new StringBuilder(string);
+
+    for (int charsToGo = upToLen - sb.length(); charsToGo > 0; charsToGo--) {
+      sb.insert(0, charToPad);
+    }
+
+    return sb.toString();
   }
 
   // TODO maybe change System.currentTimeMillis() to Clock.systemUTC().millis() for mock

@@ -21,12 +21,12 @@ public class UtilTest {
   @Test
   public void testSafeFilename() {
     // https://stackoverflow.com/questions/1976007/what-characters-are-forbidden-in-windows-and-linux-directory-names
-    String forbiddenSymbols = "/\\?%*:|\"<>";
     assertEquals(Util.safeFilename("_file.txt"), "_file.txt");
+    assertEquals(Util.safeFilename(".file.txt"), ".file.txt");
+    String forbiddenSymbols = "/\\?%*:|\"<>";
     assertEquals(
         Util.safeFilename(forbiddenSymbols + "fil" + forbiddenSymbols + "e.txt" + forbiddenSymbols),
         "file.txt");
-    assertEquals(Util.safeFilename(".file.txt"), ".file.txt");
   }
 
   @Test
@@ -124,10 +124,9 @@ public class UtilTest {
 
   @Test
   public void testReplaceRegexWithCallback() {
-    Util.StringReplacerCallback stringReplacerCallback = match -> "";
     assertEquals(
         Util.replaceRegexWithCallback(
-            "\\q&we-%123", Pattern.compile("\\W+", Pattern.MULTILINE), stringReplacerCallback),
+            "\\q&we-%123", Pattern.compile("\\W+", Pattern.MULTILINE), match -> ""),
         "qwe123");
   }
 }
