@@ -82,8 +82,11 @@ public class UtilTest {
     assertEquals(
         "2 d 3 h", Util.renderDelta(millisDay * 2 + millisHr * 3 + millisMin * 4 + millisSec * 5));
     assertEquals("3 h 4 m", Util.renderDelta(millisHr * 3 + millisMin * 4 + millisSec * 5));
+    assertEquals("3 h 0 m", Util.renderDelta(millisHr * 3 + millisSec * 5));
     assertEquals("4 m 5 s", Util.renderDelta(millisMin * 4 + millisSec * 5));
-    assertEquals("2 d null", Util.renderDelta(millisDay * 2 + millisSec * 5));
+    assertEquals("4 m 0 s", Util.renderDelta(millisMin * 4));
+    assertEquals("2 d 0 h", Util.renderDelta(millisDay * 2 + millisSec * 5));
+    assertEquals("0 s", Util.renderDelta(0));
   }
 
   @Test

@@ -151,10 +151,12 @@ public final class Util {
     String secSI = deltaSec > 0 ? ((int) deltaSec) + " s" : null;
 
     return dayS != null
-        ? dayS + " " + hrS
+        ? dayS + " " + (hrS == null ? "0 h" : hrS)
         : deltaHr > 0
-            ? hrS + " " + minS
-            : deltaMin > 0 ? minS + " " + secSI : deltaSec > 0 ? secS : "0 s";
+            ? hrS + " " + (minS == null ? "0 m" : minS)
+            : deltaMin > 0
+                ? (minS + " " + (secSI == null ? "0 s" : secSI))
+                : deltaSec > 0 ? secS : "0 s";
   }
 
   public static String renderFileSize(long bytes) {
