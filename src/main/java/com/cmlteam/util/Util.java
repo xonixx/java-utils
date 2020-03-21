@@ -29,14 +29,27 @@ public final class Util {
     return String.join(".", parts);
   }
 
+  /**
+   * @param boolCandidate input
+   * @return boolean representation of input (or false if input doesn't represent valid bool)
+   */
   public static boolean safeToBoolean(Object boolCandidate) {
     return Boolean.TRUE.equals(boolCandidate) || "true".equals(boolCandidate);
   }
 
+  /**
+   * @param intCandidate input
+   * @return int representation of input (or 0 if input doesn't represent valid int)
+   */
   public static int safeToInt(Object intCandidate) {
     return safeToInt(intCandidate, 0);
   }
 
+  /**
+   * @param intCandidate input
+   * @param defaultVal default int value to use
+   * @return int representation of input (or defaultVal if input doesn't represent valid int)
+   */
   public static int safeToInt(Object intCandidate, int defaultVal) {
     if (intCandidate instanceof Number) {
       return ((Number) intCandidate).intValue();
@@ -53,10 +66,19 @@ public final class Util {
     return defaultVal;
   }
 
+  /**
+   * @param longCandidate input
+   * @return long representation of input (or 0 if input doesn't represent valid long)
+   */
   public static long safeToLong(Object longCandidate) {
     return safeToLong(longCandidate, 0);
   }
 
+  /**
+   * @param longCandidate input
+   * @param defaultVal default long value to use
+   * @return long representation of input (or defaultVal if input doesn't represent valid long)
+   */
   public static long safeToLong(Object longCandidate, long defaultVal) {
     if (longCandidate instanceof Number) {
       return ((Number) longCandidate).longValue();
@@ -79,9 +101,13 @@ public final class Util {
    * @return ellipsis string (3 dots at the end, if string out of bounds)
    */
   public static String trim(String str, int maxLen) {
-    if (str == null) return null;
+    if (str == null) {
+      return null;
+    }
 
-    if (str.length() <= maxLen) return str;
+    if (str.length() <= maxLen) {
+      return str;
+    }
 
     return str.substring(0, maxLen) + "...";
   }
@@ -119,10 +145,22 @@ public final class Util {
     return sb.toString();
   }
 
+  /**
+   * Human-readable duration representation. Ex.: "1 h 35 m"
+   *
+   * @param startMillis the start point of duration interval
+   * @return Human-readable duration representation
+   */
   public static String renderDurationFromStart(long startMillis) {
     return renderDelta(System.currentTimeMillis() - startMillis);
   }
 
+  /**
+   * Human-readable duration representation. Ex.: "1 h 35 m"
+   *
+   * @param deltaMillis the duration in millis
+   * @return Human-readable duration representation
+   */
   public static String renderDuration(long deltaMillis) {
     float deltaSec = deltaMillis / 1000f;
     int deltaMin = 0;
@@ -159,22 +197,36 @@ public final class Util {
                 : deltaSec > 0 ? secS : "0 s";
   }
 
-  /**
-   * @deprecated Use {@link #renderDuration(long)}
-   */
+  /** @deprecated Use {@link #renderDuration(long)} */
   @Deprecated
   public static String renderDelta(long deltaMillis) {
     return renderDuration(deltaMillis);
   }
 
+  /**
+   * Renders human-readable file size. Ex.: "15 KB". Based on
+   * http://stackoverflow.com/a/3758880/104522
+   *
+   * @param bytes file size in bytes
+   * @return human-readable file size
+   */
   public static String renderFileSize(long bytes) {
     return humanReadableByteCount(bytes, false).replace("i", "");
   }
 
-  /** http://stackoverflow.com/a/3758880/104522 */
+  /**
+   * Renders human-readable file size. Ex.: "15 KB". Based on
+   * http://stackoverflow.com/a/3758880/104522
+   *
+   * @param bytes file size in bytes
+   * @param si true to use units of 1000, otherwise 1024
+   * @return human-readable file size
+   */
   public static String humanReadableByteCount(long bytes, boolean si) {
     int unit = si ? 1000 : 1024;
-    if (bytes < unit) return bytes + " B";
+    if (bytes < unit) {
+      return bytes + " B";
+    }
     int exp = (int) (Math.log(bytes) / Math.log(unit));
     String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
     return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
@@ -198,8 +250,8 @@ public final class Util {
   /**
    * @param input input string
    * @param regex that should be replaced
-   * @param callback replacer implements StringReplacerCallback
-   * @return hexadecimal string of length 40 which represents the SHA1 hash of input
+   * @param callback replace logic
+   * @return `input` with all occurrences of `regex` being replaced according to replace logic of `callback`
    */
   public static String replaceRegexWithCallback(
       String input, Pattern regex, StringReplacerCallback callback) {
