@@ -27,11 +27,11 @@ public final class Util {
       parts[i] = parts[i].replaceAll("\\W+", "");
     }
 
-    return StringUtils.join(parts, '.');
+    return String.join(".", parts);
   }
 
   public static boolean safeToBoolean(Object boolCandidate) {
-    return (Boolean.TRUE.equals(boolCandidate) || "true".equals(boolCandidate));
+    return Boolean.TRUE.equals(boolCandidate) || "true".equals(boolCandidate);
   }
 
   public static int safeToInt(Object intCandidate) {
@@ -106,7 +106,8 @@ public final class Util {
     }
   }
 
-//  TODO maybe change System.currentTimeMillis() to Clock.systemUTC().millis() for mock possibility
+  // TODO maybe change System.currentTimeMillis() to Clock.systemUTC().millis() for mock
+  // possibility
   public static String renderDurationFromStart(long startMillis) {
     return renderDelta(System.currentTimeMillis() - startMillis);
   }

@@ -1,4 +1,5 @@
 package com.cmlteam.util;
+
 import org.junit.jupiter.api.Test;
 
 import java.text.DecimalFormatSymbols;
@@ -22,7 +23,9 @@ public class UtilTest {
     // https://stackoverflow.com/questions/1976007/what-characters-are-forbidden-in-windows-and-linux-directory-names
     String forbiddenSymbols = "/\\?%*:|\"<>";
     assertEquals(Util.safeFilename("_file.txt"), "_file.txt");
-    assertEquals(Util.safeFilename(forbiddenSymbols + "fil" + forbiddenSymbols + "e.txt" + forbiddenSymbols), "file.txt");
+    assertEquals(
+        Util.safeFilename(forbiddenSymbols + "fil" + forbiddenSymbols + "e.txt" + forbiddenSymbols),
+        "file.txt");
     assertEquals(Util.safeFilename(".file.txt"), ".file.txt");
   }
 
@@ -60,8 +63,9 @@ public class UtilTest {
 
   @Test
   public void testSha1() {
-    String string = "qwertyuiop";
-    assertEquals(Util.sha1(string).getBytes().length, 40);
+    assertEquals(Util.sha1("qwertyuiop"), "b0399d2029f64d445bd131ffaa399a42d2f8e7dc");
+    assertEquals(Util.sha1("6117"), "00078f66cd4321af437c7d9486bacb3b3b187328");
+    assertEquals(Util.sha1("946399"), "00000cb4a5d760de88fecb38e2f71b7bec52e834");
   }
 
   @Test
@@ -70,7 +74,8 @@ public class UtilTest {
     long millisMin = millisSec * 60;
     long millisHr = millisMin * 60;
     long millisDay = millisHr * 24;
-    assertEquals(Util.renderDelta(millisDay * 2 + millisHr * 3 + millisMin * 4 + millisSec * 5), "2 d 3 h");
+    assertEquals(
+        Util.renderDelta(millisDay * 2 + millisHr * 3 + millisMin * 4 + millisSec * 5), "2 d 3 h");
     assertEquals(Util.renderDelta(millisHr * 3 + millisMin * 4 + millisSec * 5), "3 h 4 m");
     assertEquals(Util.renderDelta(millisMin * 4 + millisSec * 5), "4 m 5 s");
     assertEquals(Util.renderDelta(millisDay * 2 + millisSec * 5), "2 d null");
@@ -89,13 +94,17 @@ public class UtilTest {
     assertEquals(Util.humanReadableByteCount(1000, true), "1" + decimalSeparator + "0 kB");
     assertEquals(Util.humanReadableByteCount(1000000, true), "1" + decimalSeparator + "0 MB");
     assertEquals(Util.humanReadableByteCount(1000000000, true), "1" + decimalSeparator + "0 GB");
-    assertEquals(Util.humanReadableByteCount(1000000000000L, true), "1" + decimalSeparator + "0 TB");
+    assertEquals(
+        Util.humanReadableByteCount(1000000000000L, true), "1" + decimalSeparator + "0 TB");
 
     assertEquals(Util.humanReadableByteCount(11, false), "11 B");
     assertEquals(Util.humanReadableByteCount(1024, false), "1" + decimalSeparator + "0 KiB");
     assertEquals(Util.humanReadableByteCount(1024 * 1024, false), "1" + decimalSeparator + "0 MiB");
-    assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024, false), "1" + decimalSeparator + "0 GiB");
-    assertEquals(Util.humanReadableByteCount(1024 * 1024 * 1024 * 1024L, false), "1" + decimalSeparator + "0 TiB");
+    assertEquals(
+        Util.humanReadableByteCount(1024 * 1024 * 1024, false), "1" + decimalSeparator + "0 GiB");
+    assertEquals(
+        Util.humanReadableByteCount(1024 * 1024 * 1024 * 1024L, false),
+        "1" + decimalSeparator + "0 TiB");
   }
 
   @Test
@@ -103,7 +112,7 @@ public class UtilTest {
     char decimalSeparator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
     assertEquals(Util.renderFileSize(11), "11 B");
     assertEquals(Util.renderFileSize(1024), "1" + decimalSeparator + "0 KB");
-    assertEquals(Util.renderFileSize(1024 * 1024), "1" + decimalSeparator +"0 MB");
+    assertEquals(Util.renderFileSize(1024 * 1024), "1" + decimalSeparator + "0 MB");
     assertEquals(Util.renderFileSize(1024 * 1024 * 1024), "1" + decimalSeparator + "0 GB");
     assertEquals(Util.renderFileSize(1024 * 1024 * 1024 * 1024L), "1" + decimalSeparator + "0 TB");
   }
@@ -117,8 +126,8 @@ public class UtilTest {
   public void testReplaceRegexWithCallback() {
     Util.StringReplacerCallback stringReplacerCallback = match -> "";
     assertEquals(
-        Util.replaceRegexWithCallback("\\q&we-%123", Pattern.compile("\\W+", Pattern.MULTILINE), stringReplacerCallback),
-        "qwe123"
-    );
+        Util.replaceRegexWithCallback(
+            "\\q&we-%123", Pattern.compile("\\W+", Pattern.MULTILINE), stringReplacerCallback),
+        "qwe123");
   }
 }
