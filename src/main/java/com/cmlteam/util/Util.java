@@ -123,7 +123,7 @@ public final class Util {
     return renderDelta(System.currentTimeMillis() - startMillis);
   }
 
-  public static String renderDelta(long deltaMillis) {
+  public static String renderDuration(long deltaMillis) {
     float deltaSec = deltaMillis / 1000f;
     int deltaMin = 0;
     int deltaHr = 0;
@@ -157,6 +157,14 @@ public final class Util {
             : deltaMin > 0
                 ? (minS + " " + (secSI == null ? "0 s" : secSI))
                 : deltaSec > 0 ? secS : "0 s";
+  }
+
+  /**
+   * @deprecated Use {@link #renderDuration(long)}
+   */
+  @Deprecated
+  public static String renderDelta(long deltaMillis) {
+    return renderDuration(deltaMillis);
   }
 
   public static String renderFileSize(long bytes) {
