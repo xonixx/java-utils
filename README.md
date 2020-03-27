@@ -1,4 +1,7 @@
 # java-utils
+
+[![](https://jitpack.io/v/xonixx/java-utils.svg)](https://jitpack.io/#xonixx/java-utils)
+
 Small set of Java utils I usually use in my projects
 
 ## Usage
